@@ -2,6 +2,9 @@
 
 namespace YourPet.Domain.Entities
 {
+	/// <summary>
+	/// pet entity
+	/// </summary>
 	public class Pet
 	{
 		[Column("id")]
