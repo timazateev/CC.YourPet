@@ -24,6 +24,7 @@ public static class DtoExtensions
 			SpecialNeeds = dto.SpecialNeeds,
 			DietaryRequirements = dto.DietaryRequirements,
 			BehaviorNotes = dto.BehaviorNotes,
+			Enabled = dto.Enabled,
 			// Assuming Owners, Events, Medicines are managed separately or not needed for DTO conversion
 		};
 	}
@@ -47,6 +48,7 @@ public static class DtoExtensions
 			SpecialNeeds = pet.SpecialNeeds,
 			DietaryRequirements = pet.DietaryRequirements,
 			BehaviorNotes = pet.BehaviorNotes,
+			Enabled = pet.Enabled,
 			// If Owners, Events, Medicines are to be included, they would need to be mapped to their respective DTOs
 		};
 	}

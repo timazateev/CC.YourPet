@@ -23,6 +23,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         specialNeeds: '',
         dietaryRequirements: '',
         behaviorNotes: ''
+        enabled: ''
     });
 
     useEffect(() => {
@@ -46,6 +47,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 specialNeeds: '',
                 dietaryRequirements: '',
                 behaviorNotes: ''
+                enabled: ''
             });
         }
     }, [initialPet, open]);
@@ -198,6 +200,15 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                         type="text"
                         fullWidth
                         value={pet.behaviorNotes}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="enabled"
+                        label="Enabled"
+                        type="text"
+                        fullWidth
+                        value={pet.enabled}
                         onChange={handleChange}
                     />
                 </Box>

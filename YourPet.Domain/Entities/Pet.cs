@@ -52,6 +52,9 @@ namespace YourPet.Domain.Entities
 		[Column("behavior_notes")]
 		public string BehaviorNotes { get; set; }
 
+		[Column("enabled")]
+		public bool Enabled {  get; set; }
+
 		// Relationships
 		// Note: For navigation properties, EF Core does not use Column attributes
 		// However, you might need to configure the relationship mappings using Fluent API if the default conventions do not match your database schema
