@@ -1,13 +1,11 @@
-using YourPet.ApiHost.Infrastructure;
 using YourPet.ApiHost.Infrastructure.Logging;
 using System.Text.Json.Serialization;
 using Serilog;
 using YourPet.Data.Postgres;
-using YourPet.Data.NpgsqlEFCore;
 
 namespace YourPet.ApiHost
 {
-    public class Program
+	public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -31,8 +29,16 @@ namespace YourPet.ApiHost
                 x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 x.JsonSerializerOptions.IgnoreNullValues = true;
             });
-            
-            var app = builder.Build();
+
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("AllowSpecificOrigin",
+					builder => builder.WithOrigins("http://localhost:3000")
+									  .AllowAnyHeader()
+									  .AllowAnyMethod());
+			});
+
+			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			//if (app.Environment.IsDevelopment())
@@ -53,7 +59,10 @@ namespace YourPet.ApiHost
 
             app.UseHttpsRedirection();
 
-            app.UseSerilogRequestLogging();
+			// Apply CORS policy here
+			app.UseCors("AllowSpecificOrigin");
+
+			app.UseSerilogRequestLogging();
 
             app.UseAuthorization();
 

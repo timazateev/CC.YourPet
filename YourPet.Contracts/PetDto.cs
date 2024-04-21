@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace YourPet.Contracts
+﻿namespace YourPet.Contracts
 {
 	public class PetDto
 	{
@@ -8,10 +6,10 @@ namespace YourPet.Contracts
 		public string Name { get; set; }
 		public string Species { get; set; }
 		public string Breed { get; set; }
-		public DateTime DateOfBirth { get; set; }
+		public DateTime? DateOfBirth { get; set; }
 		public string Gender { get; set; }
 		public string Color { get; set; }
-		public double Weight { get; set; }
+		public double? Weight { get; set; }
 		public string MicrochipID { get; set; }
 		public string VaccinationRecords { get; set; }
 		public string MedicalHistory { get; set; }
