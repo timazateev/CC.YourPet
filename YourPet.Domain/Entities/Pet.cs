@@ -20,7 +20,7 @@ namespace YourPet.Domain.Entities
 		public string Breed { get; set; }
 
 		[Column("date_of_birth")]
-		public DateTime DateOfBirth { get; set; }
+		public DateTime? DateOfBirth { get; set; }
 
 		[Column("gender")]
 		public string Gender { get; set; }
@@ -29,7 +29,7 @@ namespace YourPet.Domain.Entities
 		public string Color { get; set; }
 
 		[Column("weight")]
-		public double Weight { get; set; }
+		public double? Weight { get; set; }
 
 		[Column("microchip_id")]
 		public string MicrochipID { get; set; }
