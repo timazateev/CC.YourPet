@@ -8,7 +8,7 @@ const HomePage = () => {
         <Box
             sx={{
                 height: '100vh',
-                backgroundImage: 'url("/pictures/welcome.png")',
+                backgroundImage: 'url("/pictures/welcome.webp")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 display: 'flex',

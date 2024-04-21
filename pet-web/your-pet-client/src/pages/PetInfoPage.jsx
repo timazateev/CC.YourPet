@@ -64,17 +64,16 @@ const PetInfoPage = () => {
     return (
         <Box
             sx={{
-                width: '100%',
-                minHeight: '100vh',
-                backgroundImage: `url("/pictures/field.webp")`,
+                height: '100vh',
+                backgroundImage: `url("/pictures/park.webp")`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'center bottom', // центрирование изображения
+                backgroundRepeat: 'no-repeat',
+                backgroundAttachment: 'fixed',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                pt: 4,
-                px: 2,
             }}
         >
             <Container maxWidth="sm" sx={{ textAlign: 'center', mb: 4 }}>
