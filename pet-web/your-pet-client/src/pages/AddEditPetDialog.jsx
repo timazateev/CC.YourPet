@@ -202,14 +202,15 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                         value={pet.behaviorNotes}
                         onChange={handleChange}
                     />
-                    <TextField
-                        margin="dense"
-                        name="enabled"
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={pet.enabled}
+                                onChange={handleChange}
+                                name="enabled"
+                            />
+                        }
                         label="Enabled"
-                        type="text"
-                        fullWidth
-                        value={pet.enabled}
-                        onChange={handleChange}
                     />
                 </Box>
             </DialogContent>
