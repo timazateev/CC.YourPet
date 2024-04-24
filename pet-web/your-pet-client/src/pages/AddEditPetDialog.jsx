@@ -22,7 +22,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         medicalHistory: '',
         specialNeeds: '',
         dietaryRequirements: '',
-        behaviorNotes: ''
+        behaviorNotes: '',
         enabled: ''
     });
 
@@ -46,7 +46,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 medicalHistory: '',
                 specialNeeds: '',
                 dietaryRequirements: '',
-                behaviorNotes: ''
+                behaviorNotes: '',
                 enabled: ''
             });
         }
