@@ -22,7 +22,8 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         medicalHistory: '',
         specialNeeds: '',
         dietaryRequirements: '',
-        behaviorNotes: ''
+        behaviorNotes: '',
+        enabled: ''
     });
 
     useEffect(() => {
@@ -45,7 +46,8 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 medicalHistory: '',
                 specialNeeds: '',
                 dietaryRequirements: '',
-                behaviorNotes: ''
+                behaviorNotes: '',
+                enabled: ''
             });
         }
     }, [initialPet, open]);
@@ -199,6 +201,16 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                         fullWidth
                         value={pet.behaviorNotes}
                         onChange={handleChange}
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={pet.enabled}
+                                onChange={handleChange}
+                                name="enabled"
+                            />
+                        }
+                        label="Enabled"
                     />
                 </Box>
             </DialogContent>
