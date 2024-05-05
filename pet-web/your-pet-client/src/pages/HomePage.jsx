@@ -2,9 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
 import PawIcon from '../assets/paw-icon.svg'; // Путь к вашему SVG файлу
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../tools/LanguageSwitcher';
 
 const HomePage = () => {
+    const { t } = useTranslation();
+
     return (
+
         <Box
             sx={{
                 height: '100vh',
@@ -16,6 +21,7 @@ const HomePage = () => {
                 alignItems: 'center',
             }}
         >
+            <LanguageSwitcher />
             <Container maxWidth="lg">
                 <Box
                     textAlign="center"
@@ -38,7 +44,7 @@ const HomePage = () => {
                             borderRadius: '10px', // Скругление углов текстового блока
                         }}
                     >
-                        Welcome to the Your Pet
+                        {t('welcome')}
                     </Typography>
                     <Button
                         variant="contained"
@@ -59,6 +65,7 @@ const HomePage = () => {
                         }}
                     />
                 </Box>
+
             </Container>
         </Box>
     );
