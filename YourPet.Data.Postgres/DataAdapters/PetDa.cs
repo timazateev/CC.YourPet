@@ -3,7 +3,6 @@ using YourPet.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using YourPet.Data.NPgsqlEfCore;
 using Microsoft.Extensions.Logging;
-using YourPet.Contracts;
 
 namespace YourPet.Data.Postgres.DataAdapters
 {
@@ -46,6 +45,11 @@ namespace YourPet.Data.Postgres.DataAdapters
 		public async Task<IEnumerable<Pet>> GetAllPetsAsync()
 		{
 			return await _context.Pets.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Pet>> GetEnabledPetsAsync()
+		{
+			return await _context.Pets.Where(p => p.Enabled).ToListAsync();
 		}
 
 		public async Task<Pet> UpdatePetAsync(Pet pet)

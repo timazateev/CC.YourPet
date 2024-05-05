@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, Box, FormControlLabel, Checkbox } from '@mui/material';
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '';
@@ -13,7 +13,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         name: '',
         species: '',
         breed: '',
-        dateOfBirth: '', // Ensure this is initially empty or correctly formatted
+        dateOfBirth: '',
         gender: '',
         color: '',
         weight: '',
@@ -23,7 +23,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         specialNeeds: '',
         dietaryRequirements: '',
         behaviorNotes: '',
-        enabled: ''
+        enabled: true  // Assuming enabled is a boolean, defaulting to true for new entries
     });
 
     useEffect(() => {
@@ -47,14 +47,14 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 specialNeeds: '',
                 dietaryRequirements: '',
                 behaviorNotes: '',
-                enabled: ''
+                enabled: true
             });
         }
     }, [initialPet, open]);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setPet(prevPet => ({ ...prevPet, [name]: value }));
+        const { name, value, checked, type } = event.target;
+        setPet(prevPet => ({ ...prevPet, [name]: type === 'checkbox' ? checked : value }));
     };
 
     const handleSave = () => {
