@@ -7,6 +7,8 @@ import PawIcon from '@mui/icons-material/Pets';
 import BlockIcon from '@mui/icons-material/Block';
 import { styled } from '@mui/material/styles';
 import { getPetDetails, addPet, updatePet } from '../services/PetService';
+import LanguageSwitcher from '../tools/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     borderRadius: '15px',
@@ -20,6 +22,7 @@ const PetInfoPage = () => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [currentPet, setCurrentPet] = useState(null);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         fetchPets();
@@ -98,17 +101,18 @@ const PetInfoPage = () => {
                 justifyContent: 'center',
             }}
         >
+            <LanguageSwitcher />
             <Container maxWidth="sm" sx={{ textAlign: 'center', mb: 4 }}>
-                <Typography variant="h3" gutterBottom sx={{ fontFamily: "'Fredoka One', cursive", color: 'white', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)' }}>
-                    Information about Pets
+                <Typography variant="h3" gutterBottom sx={{ fontFamily: "'Fredoka One', cursive", color: 'white', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)', }}>
+                    {t('info')}
                 </Typography>
                 <Button variant="contained" color="primary" onClick={openDialogToAdd} sx={{ mb: 2 }}>
-                    Add New Pet
+                    {t('addNewPet')}
                 </Button>
                 <StyledPaper>
                     <List sx={{ width: '100%' }}>
                         {pets.map((pet) => (
-                            <ListItem key={pet.id} sx={{ borderRadius: '10px', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', my: 1, '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.9)' } }}>
+                            <ListItem key={pet.id} sx={{ borderRadius: '10px', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', my: 1, '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.9)', }, }}>
                                 <ListItemIcon>
                                     <PawIcon sx={{ color: '#A8A8A8' }} />
                                 </ListItemIcon>
@@ -123,8 +127,8 @@ const PetInfoPage = () => {
                         ))}
                     </List>
                 </StyledPaper>
-                <Button variant="contained" color="secondary" component={Link} to="/" sx={{ borderRadius: '20px', minWidth: '120px', minHeight: '40px', fontSize: '0.9rem', fontWeight: 'bold', mt: 4, backgroundColor: '#F67280', '&:hover': { backgroundColor: '#F8B195' } }}>
-                    Back to Home
+                <Button variant="contained" color="secondary" component={Link} to="/" sx={{ borderRadius: '20px', minWidth: '120px', minHeight: '40px', fontSize: '0.9rem', fontWeight: 'bold', mt: 4, backgroundColor: '#F67280', '&:hover': { backgroundColor: '#F8B195', }, }}>
+                    {t('backToHome')}
                 </Button>
             </Container>
             <AddEditPetDialog open={isDialogOpen} onClose={handleDialogClose} onSave={handleSavePet} pet={currentPet} />
