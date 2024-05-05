@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '';
-
     const date = new Date(dateStr);
     return date.toISOString().split('T')[0];  // Correctly format the date to "yyyy-MM-dd"
 };
 
 const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
+    const { t } = useTranslation();
     const [pet, setPet] = useState({
         name: '',
         species: '',
         breed: '',
-        dateOfBirth: '', // Ensure this is initially empty or correctly formatted
+        dateOfBirth: '',
         gender: '',
         color: '',
         weight: '',
@@ -30,7 +31,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         if (initialPet) {
             setPet({
                 ...initialPet,
-                dateOfBirth: formatDate(initialPet.dateOfBirth) // Format date when setting the initial pet
+                dateOfBirth: formatDate(initialPet.dateOfBirth)
             });
         } else {
             setPet({
@@ -60,46 +61,46 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
     const handleSave = () => {
         onSave({
             ...pet,
-            dateOfBirth: formatDate(pet.dateOfBirth) // Ensure date is correctly formatted before saving
+            dateOfBirth: formatDate(pet.dateOfBirth)
         });
         onClose();
     };
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>{initialPet ? 'Edit Pet' : 'Add New Pet'}</DialogTitle>
+            <DialogTitle>{initialPet ? t('editPet') : t('addNewPetDialog')}</DialogTitle>
             <DialogContent>
                 <Box component="form" noValidate autoComplete="off" sx={{ display: 'grid', gap: 2 }}>
                     <TextField
                         autoFocus
                         margin="dense"
                         name="name"
-                        label="Name"
+                        label={t('name')}
                         type="text"
                         fullWidth
                         value={pet.name}
                         onChange={handleChange}
                     />
                     <FormControl fullWidth>
-                        <InputLabel id="species-label">Species</InputLabel>
+                        <InputLabel id="species-label">{t('species')}</InputLabel>
                         <Select
                             labelId="species-label"
                             name="species"
                             value={pet.species}
-                            label="Species"
+                            label={t('species')}
                             onChange={handleChange}
                         >
-                            <MenuItem value="Dog">Dog</MenuItem>
-                            <MenuItem value="Cat">Cat</MenuItem>
-                            <MenuItem value="Bird">Bird</MenuItem>
-                            <MenuItem value="Reptile">Reptile</MenuItem>
-                            <MenuItem value="Other">Other</MenuItem>
+                            <MenuItem value="Dog">{t('Dog')}</MenuItem>
+                            <MenuItem value="Cat">{t('Cat')}</MenuItem>
+                            <MenuItem value="Bird">{t('Bird')}</MenuItem>
+                            <MenuItem value="Reptile">{t('Reptile')}</MenuItem>
+                            <MenuItem value="Other">{t('Other')}</MenuItem>
                         </Select>
                     </FormControl>
                     <TextField
                         margin="dense"
                         name="breed"
-                        label="Breed"
+                        label={t('breed')}
                         type="text"
                         fullWidth
                         value={pet.breed}
@@ -108,7 +109,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="dateOfBirth"
-                        label="Date of Birth"
+                        label={t('dateOfBirth')}
                         type="date"
                         fullWidth
                         InputLabelProps={{
@@ -118,22 +119,22 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                         onChange={handleChange}
                     />
                     <FormControl fullWidth>
-                        <InputLabel id="gender-label">Gender</InputLabel>
+                        <InputLabel id="gender-label">{t('gender')}</InputLabel>
                         <Select
                             labelId="gender-label"
                             name="gender"
                             value={pet.gender}
-                            label="Gender"
+                            label={t('gender')}
                             onChange={handleChange}
                         >
-                            <MenuItem value="Male">Male</MenuItem>
-                            <MenuItem value="Female">Female</MenuItem>
+                            <MenuItem value="Male">{t('Male')}</MenuItem>
+                            <MenuItem value="Female">{t('Female')}</MenuItem>
                         </Select>
                     </FormControl>
                     <TextField
                         margin="dense"
                         name="color"
-                        label="Color"
+                        label={t('color')}
                         type="text"
                         fullWidth
                         value={pet.color}
@@ -142,7 +143,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="weight"
-                        label="Weight (kg)"
+                        label={t('weight')}
                         type="number"
                         fullWidth
                         value={pet.weight}
@@ -151,7 +152,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="microchipID"
-                        label="Microchip ID"
+                        label={t('microchipID')}
                         type="text"
                         fullWidth
                         value={pet.microchipID}
@@ -160,7 +161,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="vaccinationRecords"
-                        label="Vaccination Records"
+                        label={t('vaccinationRecords')}
                         type="text"
                         fullWidth
                         value={pet.vaccinationRecords}
@@ -169,7 +170,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="medicalHistory"
-                        label="Medical History"
+                        label={t('medicalHistory')}
                         type="text"
                         fullWidth
                         value={pet.medicalHistory}
@@ -178,7 +179,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="specialNeeds"
-                        label="Special Needs"
+                        label={t('specialNeeds')}
                         type="text"
                         fullWidth
                         value={pet.specialNeeds}
@@ -187,7 +188,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="dietaryRequirements"
-                        label="Dietary Requirements"
+                        label={t('dietaryRequirements')}
                         type="text"
                         fullWidth
                         value={pet.dietaryRequirements}
@@ -196,27 +197,17 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                     <TextField
                         margin="dense"
                         name="behaviorNotes"
-                        label="Behavior Notes"
+                        label={t('behaviorNotes')}
                         type="text"
                         fullWidth
                         value={pet.behaviorNotes}
                         onChange={handleChange}
                     />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={pet.enabled}
-                                onChange={handleChange}
-                                name="enabled"
-                            />
-                        }
-                        label="Enabled"
-                    />
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} color="primary">Cancel</Button>
-                <Button onClick={handleSave} color="primary">{initialPet ? 'Update' : 'Add'}</Button>
+                <Button onClick={onClose} color="primary">{t('cancel')}</Button>
+                <Button onClick={handleSave} color="primary">{initialPet ? t('update') : t('add')}</Button>
             </DialogActions>
         </Dialog>
     );
