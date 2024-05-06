@@ -17,8 +17,5 @@ namespace YourPet.Contracts
         public string? Bio { get; set; }
         public bool IsSubscribedToNewsletter { get; set; }
         public bool IsActive { get; set; } = false;
-
-        // Связи
-        public List<Pet> Pets { get; set; }
     }
 }
