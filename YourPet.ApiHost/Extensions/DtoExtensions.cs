@@ -5,6 +5,46 @@ namespace YourPet.ApiHost.Extensions;
 
 public static class DtoExtensions
 {
+	public static AppUser FromDto(this AppUserDto dto)
+	{
+		return new AppUser
+		{
+			Id = dto.Id,
+			FullName = dto.FullName,
+			RegistrationDate = dto.RegistrationDate,
+			LastLoginDate = dto.LastLoginDate,
+			ProfilePictureUrl = dto.ProfilePictureUrl,
+			DateOfBirth = dto.DateOfBirth,
+			Address = dto.Address,
+			City = dto.City,
+			Country = dto.Country,
+			PostalCode = dto.PostalCode,
+			Bio = dto.Bio,
+			IsSubscribedToNewsletter = dto.IsSubscribedToNewsletter,
+			IsActive = dto.IsActive,
+		};
+	}
+
+	public static AppUserDto ToDto(this AppUser appUser)
+	{
+		return new AppUserDto
+		{
+            Id = appUser.Id,
+            FullName = appUser.FullName,
+            RegistrationDate = appUser.RegistrationDate,
+            LastLoginDate = appUser.LastLoginDate,
+            ProfilePictureUrl = appUser.ProfilePictureUrl,
+            DateOfBirth = appUser.DateOfBirth,
+            Address = appUser.Address,
+            City = appUser.City,
+            Country = appUser.Country,
+            PostalCode = appUser.PostalCode,
+            Bio = appUser.Bio,
+            IsSubscribedToNewsletter = appUser.IsSubscribedToNewsletter,
+            IsActive = appUser.IsActive,
+        };
+	}
+
 	public static Pet FromDto(this PetDto dto)
 	{
 		return new Pet
@@ -55,4 +95,6 @@ public static class DtoExtensions
 
 	public static IEnumerable<PetDto> Map(this IEnumerable<Pet> pets) =>
 		pets.Select(pet => pet.ToDto());
+    public static IEnumerable<AppUserDto> Map(this IEnumerable<AppUser> appUser) =>
+        appUser.Select(appUser => appUser.ToDto());
 }

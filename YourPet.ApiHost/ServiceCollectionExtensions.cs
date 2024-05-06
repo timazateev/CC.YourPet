@@ -1,4 +1,5 @@
-﻿using YourPet.ApiHost.Repositories;
+﻿using YourAppUser.ApiHost.Repositories;
+using YourPet.ApiHost.Repositories;
 using YourPet.Contracts;
 
 namespace YourPet.ApiHost
@@ -29,7 +30,8 @@ namespace YourPet.ApiHost
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             return services
-                .AddScoped<IPetRepository, PetRepository>();
+                .AddScoped<IPetRepository, PetRepository>()
+                .AddScoped<IAppUserRepository, AppUserRepository>();
         }
     }
 }

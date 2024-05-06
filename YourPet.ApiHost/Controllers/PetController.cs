@@ -5,16 +5,16 @@ namespace YourPet.ApiHost.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class PetController(ILogger<PetController> logger, IPetRepository PetRepository) : ControllerBase
+	public class PetController(ILogger<PetController> logger, IPetRepository petRepository) : ControllerBase
 	{
 
 		private readonly ILogger<PetController> _logger = logger;
-		private readonly IPetRepository _PetRepository = PetRepository;
+		private readonly IPetRepository _petRepository = petRepository;
 
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<PetDto>>> GetAllPetsAsync()
 		{
-			var pets = await _PetRepository.GetAllPetsAsync();
+			var pets = await _petRepository.GetAllPetsAsync();
 			if (pets == null) 
 				return NotFound();
 			return Ok(pets);
@@ -28,7 +28,7 @@ namespace YourPet.ApiHost.Controllers
 				if (pet == null)
 					return BadRequest("Pet data is null");
 
-				return await _PetRepository.AddPetAsync(pet);
+				return await _petRepository.AddPetAsync(pet);
 			}
 			catch (Exception ex)
 			{
@@ -45,7 +45,7 @@ namespace YourPet.ApiHost.Controllers
 				if (pet == null || pet.Id == default)
 					return BadRequest("Pet data is invalid");
 
-				var updatedPet = await _PetRepository.UpdatePetAsync(pet);
+				var updatedPet = await _petRepository.UpdatePetAsync(pet);
 				return Ok(updatedPet);
 			}
 			catch (Exception ex)

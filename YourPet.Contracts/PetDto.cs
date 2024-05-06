@@ -17,6 +17,6 @@
 		public string SpecialNeeds { get; set; }
 		public string DietaryRequirements { get; set; }
 		public string BehaviorNotes { get; set; }
-        	public bool Enabled { get; set; }
+        public bool Enabled { get; set; }
     }
 }
