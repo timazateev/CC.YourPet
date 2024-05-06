@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_BASE_URL = 'https://localhost:44379';
 
 export const getPetDetails = () => {
-    return axios.get(`${API_BASE_URL}/Pet`);
+    return axios.get(`${API_BASE_URL}/Pet?onlyEnabled=true`);
 };
 
 export const addPet = (petData) => {

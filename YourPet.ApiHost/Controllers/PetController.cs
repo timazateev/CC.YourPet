@@ -12,9 +12,9 @@ namespace YourPet.ApiHost.Controllers
 		private readonly IPetRepository _petRepository = petRepository;
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<PetDto>>> GetAllPetsAsync()
+		public async Task<ActionResult<IEnumerable<PetDto>>> GetAllPetsAsync(bool onlyEnabled = false)
 		{
-			var pets = await _petRepository.GetAllPetsAsync();
+			var pets = await _petRepository.GetAllPetsAsync(onlyEnabled);
 			if (pets == null) 
 				return NotFound();
 			return Ok(pets);
