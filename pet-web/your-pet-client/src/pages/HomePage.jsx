@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
-import PawIcon from '../assets/paw-icon.svg'; // Путь к вашему SVG файлу
+import PawIcon from '../assets/paw-icon.svg'; // path to SVG file
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../tools/LanguageSwitcher';
 
@@ -15,7 +15,7 @@ const HomePage = () => {
                 height: '100vh',
                 backgroundImage: 'url("/pictures/welcome.webp")',
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'center bottom',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

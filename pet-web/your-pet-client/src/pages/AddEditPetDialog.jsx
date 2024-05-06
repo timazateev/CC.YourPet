@@ -24,7 +24,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         specialNeeds: '',
         dietaryRequirements: '',
         behaviorNotes: '',
-        enabled: ''
+        enabled: true  // Assuming enabled is a boolean, defaulting to true for new entries
     });
 
     useEffect(() => {
@@ -48,14 +48,14 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 specialNeeds: '',
                 dietaryRequirements: '',
                 behaviorNotes: '',
-                enabled: ''
+                enabled: true
             });
         }
     }, [initialPet, open]);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setPet(prevPet => ({ ...prevPet, [name]: value }));
+        const { name, value, checked, type } = event.target;
+        setPet(prevPet => ({ ...prevPet, [name]: type === 'checkbox' ? checked : value }));
     };
 
     const handleSave = () => {

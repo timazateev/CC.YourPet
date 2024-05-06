@@ -1,4 +1,5 @@
-﻿using YourPet.ApiHost.Extensions;
+﻿using System.Collections.Generic;
+using YourPet.ApiHost.Extensions;
 using YourPet.Contracts;
 using YourPet.Data.Contracts;
 
@@ -16,9 +17,18 @@ namespace YourPet.ApiHost.Repositories
 
 		}
 
-		public async Task<IEnumerable<PetDto>> GetAllPetsAsync()
+		public async Task<IEnumerable<PetDto>> GetAllPetsAsync(bool onlyEnabled)
 		{
-			return (await petDa.GetAllPetsAsync()).Map();
+			IEnumerable<PetDto> pets;
+			if (onlyEnabled)
+			{
+				pets = (await petDa.GetEnabledPetsAsync()).Map();
+			}
+			else
+			{
+				pets = (await petDa.GetAllPetsAsync()).Map();
+			}
+			return pets;
 		}
 
 		public async Task<PetDto> UpdatePetAsync(PetDto pet)

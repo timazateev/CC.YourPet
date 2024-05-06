@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Button, Box, List, ListItem, ListItemText, ListItemIcon, IconButton, Paper } from '@mui/material';
+import { Container, Typography, Button, Box, List, ListItem, ListItemText, ListItemIcon, IconButton, Paper, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddEditPetDialog from './AddEditPetDialog';
 import EditIcon from '@mui/icons-material/Edit';
 import PawIcon from '@mui/icons-material/Pets';
+import BlockIcon from '@mui/icons-material/Block';
 import { styled } from '@mui/material/styles';
 import { getPetDetails, addPet, updatePet } from '../services/PetService';
 import LanguageSwitcher from '../tools/LanguageSwitcher';
@@ -20,6 +21,7 @@ const PetInfoPage = () => {
     const [pets, setPets] = useState([]);
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [currentPet, setCurrentPet] = useState(null);
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -64,6 +66,26 @@ const PetInfoPage = () => {
         setDialogOpen(false);
     };
 
+    const openConfirmDisableDialog = (pet) => {
+        setCurrentPet(pet);
+        setOpenConfirmDialog(true);
+    };
+
+    const closeConfirmDialog = () => {
+        setOpenConfirmDialog(false);
+    };
+
+    const handleDisablePet = async (pet) => {
+        try {
+            const updatedPet = { ...pet, enabled: false };
+            await updatePet(updatedPet);
+            fetchPets();
+            setOpenConfirmDialog(false);
+        } catch (error) {
+            console.error('Failed to disable pet:', error);
+        }
+    };
+
     return (
         <Box
             sx={{
@@ -98,6 +120,9 @@ const PetInfoPage = () => {
                                 <IconButton edge="end" onClick={() => openDialogToEdit(pet)}>
                                     <EditIcon sx={{ color: '#355C7D' }} />
                                 </IconButton>
+                                <IconButton edge="end" onClick={() => openConfirmDisableDialog(pet)}>
+                                    <BlockIcon sx={{ color: 'red' }} />
+                                </IconButton>
                             </ListItem>
                         ))}
                     </List>
@@ -107,6 +132,22 @@ const PetInfoPage = () => {
                 </Button>
             </Container>
             <AddEditPetDialog open={isDialogOpen} onClose={handleDialogClose} onSave={handleSavePet} pet={currentPet} />
+            <Dialog
+                open={openConfirmDialog}
+                onClose={closeConfirmDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Are you sure you want to disable this pet?"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={closeConfirmDialog}>No</Button>
+                    <Button onClick={() => handleDisablePet(currentPet)} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };
