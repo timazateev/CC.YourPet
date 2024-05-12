@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace YourPet.Domain.Entities
 {
     public class AppUser : IdentityUser
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public new int Id { get; set; }
         public string? FullName { get; set; }
         public DateTime? RegistrationDate { get; set; } = DateTime.UtcNow;
         public DateTime? LastLoginDate { get; set; }

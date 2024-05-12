@@ -1,10 +1,8 @@
-using YourPet.Domain.Entities;
-
 namespace YourPet.Contracts
 {
     public class AppUserDto
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string? FullName { get; set; }
         public DateTime? RegistrationDate { get; set; } = DateTime.UtcNow;
         public DateTime? LastLoginDate { get; set; }
