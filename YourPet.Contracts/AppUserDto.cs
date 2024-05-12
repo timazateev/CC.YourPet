@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace YourPet.Domain.Entities
+namespace YourPet.Contracts
 {
-    public class AppUser : IdentityUser
+    public class AppUserDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public new int Id { get; set; }
+        public int Id { get; set; }
         public string? FullName { get; set; }
         public DateTime? RegistrationDate { get; set; } = DateTime.UtcNow;
         public DateTime? LastLoginDate { get; set; }
@@ -21,8 +15,5 @@ namespace YourPet.Domain.Entities
         public string? Bio { get; set; }
         public bool IsSubscribedToNewsletter { get; set; }
         public bool IsActive { get; set; } = false;
-
-		// Связи
-		public List<Pet> Pets { get; set; }
-	}
+    }
 }

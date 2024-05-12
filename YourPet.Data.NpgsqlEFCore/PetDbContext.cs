@@ -3,6 +3,7 @@ using YourPet.Data.NpgsqlEFCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Design;
 using YourPet.Domain.Entities;
+using Microsoft.Identity.Client;
 
 namespace YourPet.Data.NPgsqlEfCore
 {
@@ -11,6 +12,7 @@ namespace YourPet.Data.NPgsqlEfCore
         public PetDbContext(DbContextOptions<PetDbContext> options) : base(options) { }
 
         public DbSet<Pet> Pets { get; set; }
+		public DbSet<AppUser> AppUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
