@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using YourPet.Data.NPgsqlEfCore;
 
 public static class ServiceCollectionExtensions
@@ -10,7 +11,10 @@ public static class ServiceCollectionExtensions
 		var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 		services.AddDbContext<PetDbContext>(options =>
-			options.UseNpgsql(connectionString)); // UseNpgsql is for PostgreSQL, adjust if using a different database
+			options.UseNpgsql(connectionString)
+				   .EnableDetailedErrors()
+				   .EnableSensitiveDataLogging()
+				   .LogTo(Console.WriteLine, LogLevel.Information));
 
 		return services;
 	}
