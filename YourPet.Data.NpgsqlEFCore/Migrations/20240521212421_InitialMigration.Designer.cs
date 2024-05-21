@@ -12,23 +12,23 @@ using YourPet.Data.NPgsqlEfCore;
 namespace YourPet.NpgsqlEFCore.Migrations
 {
     [DbContext(typeof(PetDbContext))]
-    [Migration("20240421133338_EnabledMigration")]
-    partial class EnabledMigration
+    [Migration("20240521212421_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("AppUserPet", b =>
                 {
-                    b.Property<string>("OwnersId")
-                        .HasColumnType("text");
+                    b.Property<int>("OwnersId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("PetsId")
                         .HasColumnType("integer");
@@ -42,8 +42,11 @@ namespace YourPet.NpgsqlEFCore.Migrations
 
             modelBuilder.Entity("YourPet.Domain.Entities.AppUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -64,7 +67,7 @@ namespace YourPet.NpgsqlEFCore.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -125,7 +128,7 @@ namespace YourPet.NpgsqlEFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUser");
+                    b.ToTable("app_user", (string)null);
                 });
 
             modelBuilder.Entity("YourPet.Domain.Entities.Event", b =>

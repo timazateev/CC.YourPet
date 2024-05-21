@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.Data", "YourPet.Data\YourPet.Data.csproj", "{379031BA-FAAA-4665-AB31-21298C47DFF4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.Domain", "YourPet.Domain\YourPet.Domain.csproj", "{5B203F62-8C7D-4E11-80A4-4642BD97DD47}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.Contracts", "YourPet.Contracts\YourPet.Contracts.csproj", "{46EC6BDF-D37F-44F5-8008-16E952A65CA5}"
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{379031BA-FAAA-4665-AB31-21298C47DFF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{379031BA-FAAA-4665-AB31-21298C47DFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{379031BA-FAAA-4665-AB31-21298C47DFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{379031BA-FAAA-4665-AB31-21298C47DFF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5B203F62-8C7D-4E11-80A4-4642BD97DD47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B203F62-8C7D-4E11-80A4-4642BD97DD47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B203F62-8C7D-4E11-80A4-4642BD97DD47}.Release|Any CPU.ActiveCfg = Release|Any CPU

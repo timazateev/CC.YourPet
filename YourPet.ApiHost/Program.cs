@@ -2,6 +2,10 @@ using YourPet.ApiHost.Infrastructure.Logging;
 using System.Text.Json.Serialization;
 using Serilog;
 using YourPet.Data.Postgres;
+using Microsoft.AspNetCore.Identity;
+using YourPet.Domain.Entities;
+using YourPet.Data.NPgsqlEfCore;
+
 
 namespace YourPet.ApiHost
 {
@@ -15,20 +19,20 @@ namespace YourPet.ApiHost
 			builder.Services.AddPetDbContext(builder.Configuration);
 			builder.Services.AddControllers();
 
-            builder.Host.UseSerilogLogging();
+			builder.Host.UseSerilogLogging();
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
+			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDataAdapters(builder.Configuration);
+			builder.Services.AddDataAdapters(builder.Configuration);
 			builder.Services.AddRepositories();
 
-            builder.Services.AddControllers().AddJsonOptions(x =>
-            {
-                x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                x.JsonSerializerOptions.IgnoreNullValues = true;
-            });
+			builder.Services.AddControllers().AddJsonOptions(x =>
+			{
+				x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				x.JsonSerializerOptions.IgnoreNullValues = true;
+			});
 
 			builder.Services.AddCors(options =>
 			{
@@ -38,6 +42,11 @@ namespace YourPet.ApiHost
 									  .AllowAnyMethod());
 			});
 
+			// Add Identity services
+			builder.Services.AddIdentity<AppUser, IdentityRole>()
+				.AddEntityFrameworkStores<PetDbContext>()
+				.AddDefaultTokenProviders();
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -45,26 +54,25 @@ namespace YourPet.ApiHost
 			//{
 			app.UseSwagger();
 			app.UseSwaggerUI();
-            //}
+			//}
 
-            // Only manual migration at the moment
-            //app.MigrateDatabase();
-            
+			// Only manual migration at the moment
+			//app.MigrateDatabase();
 
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/error");
-            }
+			if (!app.Environment.IsDevelopment())
+			{
+				app.UseExceptionHandler("/error");
+			}
 
-
-            app.UseHttpsRedirection();
+			app.UseHttpsRedirection();
 
 			// Apply CORS policy here
 			app.UseCors("AllowSpecificOrigin");
 
 			app.UseSerilogRequestLogging();
 
-            app.UseAuthorization();
+			app.UseAuthentication();
+			app.UseAuthorization();
 
 			app.MapControllers();
 

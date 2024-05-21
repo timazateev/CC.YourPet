@@ -22,7 +22,8 @@ namespace YourPet.Domain.Entities
         public bool IsSubscribedToNewsletter { get; set; }
         public bool IsActive { get; set; } = false;
 
-		// Связи
+
+		[InverseProperty("Owners")]
 		public List<Pet> Pets { get; set; }
 	}
 }

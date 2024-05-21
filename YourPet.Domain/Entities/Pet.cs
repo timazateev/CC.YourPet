@@ -58,6 +58,7 @@ namespace YourPet.Domain.Entities
 		// Relationships
 		// Note: For navigation properties, EF Core does not use Column attributes
 		// However, you might need to configure the relationship mappings using Fluent API if the default conventions do not match your database schema
+		[InverseProperty("Pets")]
 		public List<AppUser> Owners { get; set; }
 		public List<Event> Events { get; set; }
 		public List<Medicine> Medicines { get; set; }
