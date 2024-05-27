@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
-import PawIcon from '../assets/paw-icon.svg'; // path to SVG file
+import PawIcon from '../assets/paw-icon.svg';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../tools/LanguageSwitcher';
+import AuthenticationButton from '../auth/AuthenticationButton';
 
 const HomePage = () => {
     const { t } = useTranslation();
 
     return (
-
         <Box
             sx={{
                 height: '100vh',
@@ -29,7 +29,7 @@ const HomePage = () => {
                     p={4}
                     borderRadius={3}
                     sx={{
-                        boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)', // Добавляем тень для лучшей видимости
+                        boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
                     }}
                 >
                     <Typography
@@ -38,34 +38,35 @@ const HomePage = () => {
                         sx={{
                             fontFamily: "'Roboto', sans-serif",
                             fontWeight: 'bold',
-                            color: '#34495e', // Тёмно-синий цвет текста
+                            color: '#34495e',
                             padding: '20px',
-                            backgroundColor: 'rgba(255, 255, 255, 0.7)', // Слегка прозрачный фон для текста
-                            borderRadius: '10px', // Скругление углов текстового блока
+                            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                            borderRadius: '10px',
                         }}
                     >
                         {t('welcome')}
                     </Typography>
+                    <AuthenticationButton />
                     <Button
                         variant="contained"
                         component={Link}
                         to="/pet-info"
                         sx={{
-                            borderRadius: '50%', // Круглая форма кнопки
-                            minWidth: '80px', // Минимальная ширина для круглой формы
-                            minHeight: '80px', // Минимальная высота для круглой формы
-                            backgroundColor: 'pink', // Розовый цвет кнопки
+                            borderRadius: '50%',
+                            minWidth: '80px',
+                            minHeight: '80px',
+                            backgroundColor: 'pink',
                             '&:hover': {
-                                backgroundColor: 'lightpink', // Цвет при наведении
+                                backgroundColor: 'lightpink',
                             },
-                            backgroundImage: `url(${PawIcon})`, // Иконка лапы
+                            backgroundImage: `url(${PawIcon})`,
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center',
-                            backgroundSize: '50%', // Размер иконки лапы
+                            backgroundSize: '50%',
+                            marginTop: '20px',
                         }}
                     />
                 </Box>
-
             </Container>
         </Box>
     );
