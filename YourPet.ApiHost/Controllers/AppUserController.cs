@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using YourPet.Contracts;
-using YourPet.Data.Postgres.DataAdapters;
-using YourPet.Domain.Entities;
 
 namespace YourPet.ApiHost.Controllers
 {
@@ -59,7 +56,8 @@ namespace YourPet.ApiHost.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Register([FromBody] RegisterUserModel model)
+		[Route("register")]
+		public async Task<ActionResult<AppUserDto>> Register([FromBody] RegisterUserModel model)
 		{
 			var newUser = new AppUserDto
 			{
