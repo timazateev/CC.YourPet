@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using YourPet.Contracts;
+using YourPet.Data.Postgres.DataAdapters;
+using YourPet.Domain.Entities;
 
 namespace YourPet.ApiHost.Controllers
 {
@@ -53,6 +56,28 @@ namespace YourPet.ApiHost.Controllers
 				_logger.LogError(ex, "Error updating AppUser");
 				return StatusCode(500, "Internal server error");
 			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Register([FromBody] RegisterUserModel model)
+		{
+			var newUser = new AppUserDto
+			{
+				Auth0Id = model.Auth0Id,
+				FullName = model.FullName,
+				Email = model.Email,
+				RegistrationDate = DateTime.UtcNow,
+				IsActive = true
+			};
+
+			if (await _appUserRepository.AnyAppUserAsync(newUser))
+			{
+				return Conflict("User already exists.");
+			}
+
+			newUser = await _appUserRepository.AddAppUserAsync(newUser);
+
+			return Ok(newUser);
 		}
 	}
 }

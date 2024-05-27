@@ -22,7 +22,12 @@ namespace YourPet.Data.Postgres.DataAdapters
             return appUser;
         }
 
-        public async Task DeleteAsync(int id)
+		public Task<bool> AnyAppUserAsync(AppUser appUser)
+		{
+            return _context.AppUsers.AnyAsync(u => u.Auth0Id == appUser.Auth0Id || u.Email == appUser.Email);
+		}
+
+		public async Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }

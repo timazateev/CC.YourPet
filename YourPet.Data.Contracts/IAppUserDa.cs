@@ -7,5 +7,6 @@ namespace YourPet.Data.Contracts
         Task<IEnumerable<AppUser>> GetAllAppUsersAsync();
         Task<AppUser> AddAppUserAsync(AppUser appUser);
         Task<AppUser> UpdateAppUserAsync(AppUser appUser);
+		Task<bool> AnyAppUserAsync(AppUser account);
     }
 }
