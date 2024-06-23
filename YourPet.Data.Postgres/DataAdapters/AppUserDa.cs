@@ -22,7 +22,12 @@ namespace YourPet.Data.Postgres.DataAdapters
             return appUser;
         }
 
-        public async Task DeleteAsync(int id)
+		public Task<bool> AnyAppUserAsync(AppUser appUser)
+		{
+            return _context.AppUsers.AnyAsync(u => u.Auth0Id == appUser.Auth0Id || u.Email == appUser.Email);
+		}
+
+		public async Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -34,9 +39,13 @@ namespace YourPet.Data.Postgres.DataAdapters
 
         public async Task<AppUser> UpdateAppUserAsync(AppUser appUser)
         {
-            _context.AppUsers.Add(appUser);
-            await _context.SaveChangesAsync();
-            return appUser;
+            var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == appUser.Id);
+            if (user != null)
+            {
+                _context.Entry(user).CurrentValues.SetValues(appUser);
+                await _context.SaveChangesAsync();
+            }
+            return user;
         }
     }
 }

@@ -14,6 +14,7 @@ public static class DtoExtensions
 			RegistrationDate = dto.RegistrationDate,
 			LastLoginDate = dto.LastLoginDate,
 			ProfilePictureUrl = dto.ProfilePictureUrl,
+			Email = dto.Email,
 			DateOfBirth = dto.DateOfBirth,
 			Address = dto.Address,
 			City = dto.City,
@@ -22,6 +23,7 @@ public static class DtoExtensions
 			Bio = dto.Bio,
 			IsSubscribedToNewsletter = dto.IsSubscribedToNewsletter,
 			IsActive = dto.IsActive,
+			Auth0Id = dto.Auth0Id,
 		};
 	}
 
@@ -34,7 +36,8 @@ public static class DtoExtensions
             RegistrationDate = appUser.RegistrationDate,
             LastLoginDate = appUser.LastLoginDate,
             ProfilePictureUrl = appUser.ProfilePictureUrl,
-            DateOfBirth = appUser.DateOfBirth,
+			Email = appUser.Email,
+			DateOfBirth = appUser.DateOfBirth,
             Address = appUser.Address,
             City = appUser.City,
             Country = appUser.Country,
@@ -42,6 +45,7 @@ public static class DtoExtensions
             Bio = appUser.Bio,
             IsSubscribedToNewsletter = appUser.IsSubscribedToNewsletter,
             IsActive = appUser.IsActive,
+			Auth0Id = appUser.Auth0Id,
         };
 	}
 

@@ -12,8 +12,6 @@ namespace YourAppUser.ApiHost.Repositories
         {
             YourPet.Domain.Entities.AppUser appUser = appUserDto.FromDto();
             return (await appUserDa.AddAppUserAsync(appUser)).ToDto();
-
-
         }
 
         public async Task<IEnumerable<AppUserDto>> GetAllAppUsersAsync()
@@ -30,5 +28,10 @@ namespace YourAppUser.ApiHost.Repositories
         {
             await appUserDa.DeleteAsync(id);
         }
-    }
+
+		public async Task<bool> AnyAppUserAsync(AppUserDto account)
+		{
+            return await appUserDa.AnyAppUserAsync(account.FromDto());
+		}
+	}
 }

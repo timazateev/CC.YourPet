@@ -2,9 +2,8 @@ using YourPet.ApiHost.Infrastructure.Logging;
 using System.Text.Json.Serialization;
 using Serilog;
 using YourPet.Data.Postgres;
-using Microsoft.AspNetCore.Identity;
-using YourPet.Domain.Entities;
-using YourPet.Data.NPgsqlEfCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace YourPet.ApiHost
@@ -42,10 +41,26 @@ namespace YourPet.ApiHost
 									  .AllowAnyMethod());
 			});
 
-			// Add Identity services
-			builder.Services.AddIdentity<AppUser, IdentityRole>()
-				.AddEntityFrameworkStores<PetDbContext>()
-				.AddDefaultTokenProviders();
+
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+				.AddJwtBearer(options =>
+				{
+					options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
+					options.Audience = builder.Configuration["Auth0:Audience"];
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidIssuer = $"https://{builder.Configuration["Auth0:Domain"]}",
+						ValidateAudience = true,
+						ValidAudience = builder.Configuration["Auth0:Audience"],
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true
+					};
+				});
 
 			var app = builder.Build();
 

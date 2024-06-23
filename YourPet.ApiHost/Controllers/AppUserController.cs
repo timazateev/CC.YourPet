@@ -54,5 +54,28 @@ namespace YourPet.ApiHost.Controllers
 				return StatusCode(500, "Internal server error");
 			}
 		}
+
+		[HttpPost]
+		[Route("register")]
+		public async Task<ActionResult<AppUserDto>> Register([FromBody] RegisterUserModel model)
+		{
+			var newUser = new AppUserDto
+			{
+				Auth0Id = model.Auth0Id,
+				FullName = model.FullName,
+				Email = model.Email,
+				RegistrationDate = DateTime.UtcNow,
+				IsActive = true
+			};
+
+			if (await _appUserRepository.AnyAppUserAsync(newUser))
+			{
+				return Conflict("User already exists.");
+			}
+
+			newUser = await _appUserRepository.AddAppUserAsync(newUser);
+
+			return Ok(newUser);
+		}
 	}
 }
