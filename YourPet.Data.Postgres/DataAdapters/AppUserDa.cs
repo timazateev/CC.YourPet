@@ -39,9 +39,13 @@ namespace YourPet.Data.Postgres.DataAdapters
 
         public async Task<AppUser> UpdateAppUserAsync(AppUser appUser)
         {
-            _context.AppUsers.Add(appUser);
-            await _context.SaveChangesAsync();
-            return appUser;
+            var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == appUser.Id);
+            if (user != null)
+            {
+                _context.Entry(user).CurrentValues.SetValues(appUser);
+                await _context.SaveChangesAsync();
+            }
+            return user;
         }
     }
 }
