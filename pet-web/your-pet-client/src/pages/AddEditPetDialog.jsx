@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import AvatarSelector from '../features/AvatarSelector.jsx';
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '';
@@ -24,8 +25,11 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         specialNeeds: '',
         dietaryRequirements: '',
         behaviorNotes: '',
-        enabled: true  // Assuming enabled is a boolean, defaulting to true for new entries
+        enabled: true,
+        avatarKey: ''
     });
+
+    const [selectedAvatar, setSelectedAvatar] = useState('');
 
     useEffect(() => {
         if (initialPet) {
@@ -33,6 +37,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 ...initialPet,
                 dateOfBirth: formatDate(initialPet.dateOfBirth)
             });
+            setSelectedAvatar(initialPet.avatarKey || '');
         } else {
             setPet({
                 name: '',
@@ -48,8 +53,10 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 specialNeeds: '',
                 dietaryRequirements: '',
                 behaviorNotes: '',
-                enabled: true
+                enabled: true,
+                avatarKey: ''
             });
+            setSelectedAvatar('');
         }
     }, [initialPet, open]);
 
@@ -61,7 +68,8 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
     const handleSave = () => {
         onSave({
             ...pet,
-            dateOfBirth: formatDate(pet.dateOfBirth)
+            dateOfBirth: formatDate(pet.dateOfBirth),
+            avatarKey: selectedAvatar
         });
         onClose();
     };
@@ -70,6 +78,11 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{initialPet ? t('editPet') : t('addNewPetDialog')}</DialogTitle>
             <DialogContent>
+                <AvatarSelector
+                    selectedAvatar={selectedAvatar}
+                    setSelectedAvatar={setSelectedAvatar}
+                    avatarKey={pet.avatarKey}
+                />
                 <Box component="form" noValidate autoComplete="off" sx={{ display: 'grid', gap: 2 }}>
                     <TextField
                         autoFocus

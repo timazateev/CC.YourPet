@@ -40,8 +40,8 @@ namespace YourPet.Domain.Entities
 		[Column("medical_history")]
 		public string MedicalHistory { get; set; }
 
-		[Column("photo")]
-		public byte[]? Photo { get; set; }
+		[Column("avatar_key")]
+		public string? AvatarKey { get; set; }
 
 		[Column("special_needs")]
 		public string SpecialNeeds { get; set; }
