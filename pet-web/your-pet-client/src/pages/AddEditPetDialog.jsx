@@ -26,7 +26,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         dietaryRequirements: '',
         behaviorNotes: '',
         enabled: true,
-        avatar: ''  // Добавление поля для аватара
+        avatarKey: ''
     });
 
     const [selectedAvatar, setSelectedAvatar] = useState('');
@@ -37,7 +37,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 ...initialPet,
                 dateOfBirth: formatDate(initialPet.dateOfBirth)
             });
-            setSelectedAvatar(initialPet.avatar || '');
+            setSelectedAvatar(initialPet.avatarKey || '');
         } else {
             setPet({
                 name: '',
@@ -54,7 +54,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
                 dietaryRequirements: '',
                 behaviorNotes: '',
                 enabled: true,
-                avatar: ''
+                avatarKey: ''
             });
             setSelectedAvatar('');
         }
@@ -69,7 +69,7 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         onSave({
             ...pet,
             dateOfBirth: formatDate(pet.dateOfBirth),
-            avatar: selectedAvatar  // Сохранение выбранного аватара
+            avatarKey: selectedAvatar
         });
         onClose();
     };
@@ -78,7 +78,11 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{initialPet ? t('editPet') : t('addNewPetDialog')}</DialogTitle>
             <DialogContent>
-                <AvatarSelector selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar} />
+                <AvatarSelector
+                    selectedAvatar={selectedAvatar}
+                    setSelectedAvatar={setSelectedAvatar}
+                    avatarKey={pet.avatarKey}
+                />
                 <Box component="form" noValidate autoComplete="off" sx={{ display: 'grid', gap: 2 }}>
                     <TextField
                         autoFocus

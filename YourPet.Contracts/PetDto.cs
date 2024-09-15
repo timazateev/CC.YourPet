@@ -13,7 +13,7 @@
 		public string MicrochipID { get; set; }
 		public string VaccinationRecords { get; set; }
 		public string MedicalHistory { get; set; }
-		public byte[]? Photo { get; set; }
+		public string? AvatarKey { get; set; }
 		public string SpecialNeeds { get; set; }
 		public string DietaryRequirements { get; set; }
 		public string BehaviorNotes { get; set; }
