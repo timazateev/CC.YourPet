@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using YourPet.Domain.Entities;
 
-namespace YourPet.Data.NpgsqlEFCore.Configurations;
+namespace YourPet.NpgsqlEFCore.Configurations;
 
 public class PetConfiguration : IEntityTypeConfiguration<Pet>
 {

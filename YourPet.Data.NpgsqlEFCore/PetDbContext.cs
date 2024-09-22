@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Design;
 using YourPet.Domain.Entities;
 
-namespace YourPet.Data.NPgsqlEfCore
+namespace YourPet.NPgsqlEfCore
 {
 	public class PetDbContext(DbContextOptions<PetDbContext> options) : DbContext(options)
 	{
@@ -12,6 +12,15 @@ namespace YourPet.Data.NPgsqlEfCore
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<AppUser>()
+				.HasMany(au => au.Pets)
+				.WithMany(p => p.Owners)
+				.UsingEntity<Dictionary<string, object>>(
+				"app_user_pet_rel",
+				j => j.HasOne<Pet>().WithMany().HasForeignKey("pet_id"),
+				j => j.HasOne<AppUser>().WithMany().HasForeignKey("app_user_id")
+			);
+
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(PetDbContext).Assembly);
 		}
 	}

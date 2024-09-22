@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using YourPet.ApiHost.Extensions;
 using YourPet.Contracts;
+using YourPet.Contracts.Repositories;
 using YourPet.Data.Contracts;
+using YourPet.Data.Postgres.DataAdapters;
 
 namespace YourPet.ApiHost.Repositories
 {
@@ -9,25 +12,16 @@ namespace YourPet.ApiHost.Repositories
 	{
 		private readonly ILogger<PetRepository> _logger = logger;
 
-		public async Task<PetDto> AddPetAsync(PetDto petDto)
+		public async Task<PetDto> AddPetAsync(PetDto petDto, int userId)
 		{
-			Domain.Entities.Pet pet = petDto.FromDto();
-			return (await petDa.AddPetAsync(pet)).ToDto();
-
-
+			var pet = petDto.FromDto();
+			var addedPet = await petDa.AddPetAsync(pet, userId);
+			return addedPet.ToDto();
 		}
 
 		public async Task<IEnumerable<PetDto>> GetAllPetsAsync(bool onlyEnabled)
 		{
-			IEnumerable<PetDto> pets;
-			if (onlyEnabled)
-			{
-				pets = (await petDa.GetEnabledPetsAsync()).Map();
-			}
-			else
-			{
-				pets = (await petDa.GetAllPetsAsync()).Map();
-			}
+			IEnumerable<PetDto> pets = (await petDa.GetAllPetsAsync(onlyEnabled)).Map();
 			return pets;
 		}
 
@@ -39,6 +33,23 @@ namespace YourPet.ApiHost.Repositories
 		public async Task DeleteAsync(int id)
 		{
 			await petDa.DeleteAsync(id);
+		}
+
+		public async Task<IEnumerable<PetDto>> GetUserPetsAsync(int userId, bool onlyEnabled)
+		{
+			IEnumerable<PetDto> pets;
+			pets = (await petDa.GetUserPetsAsync(userId, onlyEnabled)).Map();
+			return pets;
+		}
+
+		public Task<IEnumerable<PetDto>> GetPetById(int id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task<bool> AssignPetToUserAsync(int petId, int userId)
+		{
+			return await petDa.AssignPetToUserAsync(petId, userId);
 		}
 	}
 }

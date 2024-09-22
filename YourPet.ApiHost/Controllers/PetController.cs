@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using YourPet.Contracts;
+using YourPet.Contracts.Repositories;
 
 namespace YourPet.ApiHost.Controllers
 {
@@ -15,24 +16,53 @@ namespace YourPet.ApiHost.Controllers
 		public async Task<ActionResult<IEnumerable<PetDto>>> GetAllPetsAsync(bool onlyEnabled = false)
 		{
 			var pets = await _petRepository.GetAllPetsAsync(onlyEnabled);
-			if (pets == null) 
+			if (pets == null)
+				return NotFound();
+			return Ok(pets);
+		}
+
+		[HttpGet("{userId}")]
+		public async Task<ActionResult<IEnumerable<PetDto>>> GetUsersPetsAsync(int userId, bool onlyEnabled = false)
+		{
+			var pets = await _petRepository.GetUserPetsAsync(userId, onlyEnabled);
+			if (pets == null)
 				return NotFound();
 			return Ok(pets);
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<PetDto>> AddPetAsync(PetDto pet)
+		public async Task<ActionResult<PetDto>> AddPetAsync(int userId, PetDto pet)
 		{
 			try
 			{
 				if (pet == null)
 					return BadRequest("Pet data is null");
 
-				return await _petRepository.AddPetAsync(pet);
+				var addedPet = await _petRepository.AddPetAsync(pet, userId);
+
+				return Ok(addedPet);
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Error adding Pet");
+				return StatusCode(500, "Internal server error");
+			}
+		}
+
+		[HttpPost("{petId}/assign")]
+		public async Task<ActionResult> AssignPetToUserAsync(int petId, int userId)
+		{
+			try
+			{
+				var result = await _petRepository.AssignPetToUserAsync(petId, userId);
+				if (!result)
+					return NotFound("Either Pet or User not found");
+
+				return Ok("Pet successfully assigned to user");
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error assigning Pet to User");
 				return StatusCode(500, "Internal server error");
 			}
 		}

@@ -70,6 +70,7 @@ public static class DtoExtensions
 			BehaviorNotes = dto.BehaviorNotes,
 			Enabled = dto.Enabled,
 			// Assuming Owners, Events, Medicines are managed separately or not needed for DTO conversion
+			Owners = []
 		};
 	}
 
@@ -99,6 +100,8 @@ public static class DtoExtensions
 
 	public static IEnumerable<PetDto> Map(this IEnumerable<Pet> pets) =>
 		pets.Select(pet => pet.ToDto());
-    public static IEnumerable<AppUserDto> Map(this IEnumerable<AppUser> appUser) =>
+	public static IEnumerable<Pet> Map(this IEnumerable<PetDto> pets) =>
+	pets.Select(pet => pet.FromDto());
+	public static IEnumerable<AppUserDto> Map(this IEnumerable<AppUser> appUser) =>
         appUser.Select(appUser => appUser.ToDto());
 }

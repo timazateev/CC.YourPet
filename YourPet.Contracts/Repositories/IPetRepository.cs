@@ -1,8 +1,12 @@
-﻿namespace YourPet.Contracts;
+﻿namespace YourPet.Contracts.Repositories;
 
 public interface IPetRepository : IEntityRepository
 {
-    Task<IEnumerable<PetDto>> GetAllPetsAsync(bool onlyEnabled);
-    Task<PetDto> AddPetAsync(PetDto account);
-    Task<PetDto> UpdatePetAsync(PetDto account);
+	Task<IEnumerable<PetDto>> GetAllPetsAsync(bool onlyEnabled);
+	Task<IEnumerable<PetDto>> GetUserPetsAsync(int userId, bool onlyEnabled);
+	Task<IEnumerable<PetDto>> GetPetById(int id);
+	Task<PetDto> UpdatePetAsync(PetDto petDto);
+	Task<PetDto> AddPetAsync(PetDto petDto, int userId);
+	Task<bool> AssignPetToUserAsync(int petId, int userId);
+
 }

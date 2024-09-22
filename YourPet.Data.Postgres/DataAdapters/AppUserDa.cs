@@ -1,21 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using YourPet.Data.Contracts;
-using YourPet.Data.NPgsqlEfCore;
 using YourPet.Domain.Entities;
+using YourPet.NPgsqlEfCore;
 
 namespace YourPet.Data.Postgres.DataAdapters
 {
-    public class AppUserDa : IAppUserDa
+    public class AppUserDa(PetDbContext context, ILogger<AppUserDa> logger) : IAppUserDa
     {
-        private readonly PetDbContext _context;
-        private readonly ILogger<AppUserDa> _logger;
-        public AppUserDa(PetDbContext context, ILogger<AppUserDa> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
-        public async Task<AppUser> AddAppUserAsync(AppUser appUser)
+        private readonly PetDbContext _context = context;
+        private readonly ILogger<AppUserDa> _logger = logger;
+
+		public async Task<AppUser> AddAppUserAsync(AppUser appUser)
         {
             _context.AppUsers.Add(appUser);
             await _context.SaveChangesAsync();
@@ -27,7 +23,7 @@ namespace YourPet.Data.Postgres.DataAdapters
             return _context.AppUsers.AnyAsync(u => u.Auth0Id == appUser.Auth0Id || u.Email == appUser.Email);
 		}
 
-		public async Task DeleteAsync(int id)
+		public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -37,15 +33,15 @@ namespace YourPet.Data.Postgres.DataAdapters
             return await _context.AppUsers.ToListAsync();
         }
 
-        public async Task<AppUser> UpdateAppUserAsync(AppUser appUser)
-        {
-            var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == appUser.Id);
-            if (user != null)
-            {
-                _context.Entry(user).CurrentValues.SetValues(appUser);
-                await _context.SaveChangesAsync();
-            }
-            return user;
-        }
-    }
+		public async Task<AppUser> UpdateAppUserAsync(AppUser appUser)
+		{
+			var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == appUser.Id) 
+                ?? throw new Exception($"User with ID {appUser.Id} not found.");
+			_context.Entry(user).CurrentValues.SetValues(appUser);
+			await _context.SaveChangesAsync();
+
+			return user;
+		}
+
+	}
 }
