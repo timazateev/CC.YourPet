@@ -8,5 +8,6 @@ public interface IPetRepository : IEntityRepository
 	Task<PetDto> UpdatePetAsync(PetDto petDto);
 	Task<PetDto> AddPetAsync(PetDto petDto, int userId);
 	Task<bool> AssignPetToUserAsync(int petId, int userId);
+	Task<bool> RemovePetFromUserAsync(int petId, int userId);
 
 }

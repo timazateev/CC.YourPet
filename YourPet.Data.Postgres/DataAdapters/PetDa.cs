@@ -36,11 +36,6 @@ namespace YourPet.Data.Postgres.DataAdapters
 			}
 		}
 
-		public async Task<IEnumerable<Pet>> GetAllPetsAsync()
-		{
-			return await _context.Pets.ToListAsync();
-		}
-
 		public async Task<IEnumerable<Pet>> GetAllPetsAsync(bool onlyEnabled)
 		{
 			var query = _context.Pets.AsQueryable();
@@ -53,34 +48,27 @@ namespace YourPet.Data.Postgres.DataAdapters
 			return await query.ToListAsync();
 		}
 
-		public async Task<IEnumerable<Pet>> GetUserPetsAsync(int userId, bool enabled)
+		public async Task<IEnumerable<Pet>> GetUserPetsAsync(int userId, bool onlyEnabled)
 		{
-			return await _context.Pets
-				.Where(p => p.Owners.Any(u => u.Id == userId) && p.Enabled == enabled)
-				.ToListAsync();
+			var query = _context.Pets.AsQueryable();
+
+			query = query.Include(p => p.Owners)
+						 .Where(p => p.Owners.Any(u => u.Id == userId));
+
+			if (onlyEnabled)
+			{
+				query = query.Where(p => p.Enabled);
+			}
+
+			return await query.ToListAsync();
 		}
+
 
 		public async Task<Pet> UpdatePetAsync(Pet pet)
 		{
 			_context.Pets.Update(pet);
 			await _context.SaveChangesAsync();
 			return pet;
-		}
-
-		public async Task<bool> AssignPetToUserAsync(int petId, int userId)
-		{
-			var pet = await _context.Pets.FindAsync(petId);
-			var user = await _context.AppUsers.FindAsync(userId);
-
-			if (pet == null || user == null)
-			{
-				return false;
-			}
-
-			user.Pets.Add(pet);
-			await _context.SaveChangesAsync();
-
-			return true;
 		}
 
 		public async Task<Pet> AddPetAsync(Pet pet, int userId)
@@ -104,5 +92,53 @@ namespace YourPet.Data.Postgres.DataAdapters
 			}
 			return pet;
 		}
+
+		public async Task<bool> AssignPetToUserAsync(int petId, int userId)
+		{
+			var pet = await _context.Pets.FindAsync(petId);
+			var user = await _context.AppUsers
+				.Include(u => u.Pets)
+				.FirstOrDefaultAsync(u => u.Id == userId);
+
+			if (pet == null || user == null)
+			{
+				return false;
+			}
+
+			if (user.Pets.Any(p => p.Id == petId))
+			{
+				return false;
+			}
+
+			user.Pets.Add(pet);
+			await _context.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<bool> RemovePetFromUserAsync(int petId, int userId)
+		{
+			var user = await _context.AppUsers
+				.Include(u => u.Pets)
+				.FirstOrDefaultAsync(u => u.Id == userId);
+
+			var pet = await _context.Pets.FindAsync(petId);
+
+			if (user == null || pet == null)
+			{
+				return false;
+			}
+
+			if (!user.Pets.Any(p => p.Id == petId))
+			{
+				return false;
+			}
+
+			user.Pets.Remove(pet);
+			await _context.SaveChangesAsync();
+
+			return true;
+		}
+
 	}
 }

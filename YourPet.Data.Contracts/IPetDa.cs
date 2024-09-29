@@ -9,5 +9,6 @@ namespace YourPet.Data.Contracts
 		Task<Pet> AddPetAsync(Pet pet, int userId);
 		Task<Pet> UpdatePetAsync(Pet pet);
 		Task<bool> AssignPetToUserAsync(int petId, int userId);
+		Task<bool> RemovePetFromUserAsync(int petId, int userId);
 	}
 }

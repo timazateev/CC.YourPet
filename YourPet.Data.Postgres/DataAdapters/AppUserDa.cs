@@ -33,6 +33,11 @@ namespace YourPet.Data.Postgres.DataAdapters
             return await _context.AppUsers.ToListAsync();
         }
 
+		public async Task<AppUser?> GetAppUserByAuth0IdOrDefaultAsync(string auth0Id)
+		{
+            return await _context.AppUsers.FirstOrDefaultAsync(u => u.Auth0Id == auth0Id);
+		}
+
 		public async Task<AppUser> UpdateAppUserAsync(AppUser appUser)
 		{
 			var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == appUser.Id) 

@@ -6,11 +6,12 @@ namespace YourPet.ApiHost.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class PetController(ILogger<PetController> logger, IPetRepository petRepository) : ControllerBase
+	public class PetController(ILogger<PetController> logger, IPetRepository petRepository, IAppUserRepository appUserRepository) : ControllerBase
 	{
 
 		private readonly ILogger<PetController> _logger = logger;
 		private readonly IPetRepository _petRepository = petRepository;
+		private readonly IAppUserRepository _appuserRepository = appUserRepository;
 
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<PetDto>>> GetAllPetsAsync(bool onlyEnabled = false)
@@ -35,6 +36,18 @@ namespace YourPet.ApiHost.Controllers
 		{
 			try
 			{
+				var auth0Id = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+				if (auth0Id == null)
+				{
+					return Unauthorized();
+				}
+
+				var user = await _appuserRepository.GetAppUserByAuth0IdOrDefaultAsync(auth0Id);
+				if (user == null)
+				{
+					return NotFound("User not found.");
+				}
+
 				if (pet == null)
 					return BadRequest("Pet data is null");
 
@@ -45,6 +58,24 @@ namespace YourPet.ApiHost.Controllers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Error adding Pet");
+				return StatusCode(500, "Internal server error");
+			}
+		}
+
+		[HttpPut]
+		public async Task<ActionResult<PetDto>> UpdatePetAsync(PetDto pet)
+		{
+			try
+			{
+				if (pet == null || pet.Id == default)
+					return BadRequest("Pet data is invalid");
+
+				var updatedPet = await _petRepository.UpdatePetAsync(pet);
+				return Ok(updatedPet);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error updating Pet");
 				return StatusCode(500, "Internal server error");
 			}
 		}
@@ -67,22 +98,23 @@ namespace YourPet.ApiHost.Controllers
 			}
 		}
 
-		[HttpPut]
-		public async Task<ActionResult<PetDto>> UpdatePetAsync(PetDto pet)
+		[HttpPost("{petId}/remove")]
+		public async Task<ActionResult> RemovePetFromUserAsync(int petId, int userId)
 		{
 			try
 			{
-				if (pet == null || pet.Id == default)
-					return BadRequest("Pet data is invalid");
+				var result = await _petRepository.RemovePetFromUserAsync(petId, userId);
+				if (!result)
+					return NotFound("Either Pet not found or User does not own this pet");
 
-				var updatedPet = await _petRepository.UpdatePetAsync(pet);
-				return Ok(updatedPet);
+				return Ok("Pet successfully removed from user");
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "Error updating Pet");
+				_logger.LogError(ex, "Error removing Pet from User");
 				return StatusCode(500, "Internal server error");
 			}
 		}
+
 	}
 }

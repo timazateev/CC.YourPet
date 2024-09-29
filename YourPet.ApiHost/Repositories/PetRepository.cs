@@ -51,5 +51,10 @@ namespace YourPet.ApiHost.Repositories
 		{
 			return await petDa.AssignPetToUserAsync(petId, userId);
 		}
+
+		public async Task<bool> RemovePetFromUserAsync(int petId, int userId)
+		{
+			return await petDa.RemovePetFromUserAsync(petId, userId);
+		}
 	}
 }

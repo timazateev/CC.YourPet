@@ -8,5 +8,6 @@ namespace YourPet.Data.Contracts
         Task<AppUser> AddAppUserAsync(AppUser appUser);
         Task<AppUser> UpdateAppUserAsync(AppUser appUser);
 		Task<bool> AnyAppUserAsync(AppUser account);
-    }
+		Task<AppUser?> GetAppUserByAuth0IdOrDefaultAsync(string auth0Id);
+	}
 }
