@@ -1,23 +1,28 @@
-import axios from 'axios';
+import { useAuthenticatedAxios } from '../auth/AuthenticationTokenManager';
+import { useAuth0 } from '@auth0/auth0-react'; // Import Auth0 to access the user ID
 
-const API_BASE_URL = 'https://localhost:44379';
+// Custom hook for Pet service functions
+export const usePetService = () => {
+    const apiClient = useAuthenticatedAxios(); // Calling the hook inside a valid custom hook
+    const { user } = useAuth0(); // Get the Auth0 user object
 
-export const getPetDetails = () => {
-    return axios.get(`${API_BASE_URL}/Pet?onlyEnabled=true`);
-};
+    // Get only pets belonging to the authenticated user
+    const getPetDetails = async () => {
+        const api = await apiClient;
+        const userId = user.sub; // Use the Auth0 user ID (sub field)
+        return api.get(`/Pet/${userId}`); // Assuming the API has this endpoint for user-specific pets
+    };
 
-export const addPet = (petData) => {
-    return axios.post(`${API_BASE_URL}/Pet`, petData, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-};
+    const addPet = async (petData) => {
+        const api = await apiClient;
+        const userId = user.sub; // Get the user's ID to associate the pet
+        return api.post(`/Pet`, { ...petData, userId }); // Send userId with the request body
+    };
 
-export const updatePet = (petData) => {
-    return axios.put(`${API_BASE_URL}/Pet`, petData, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    const updatePet = async (petData) => {
+        const api = await apiClient;
+        return api.put(`/Pet`, petData);
+    };
+
+    return { getPetDetails, addPet, updatePet };
 };

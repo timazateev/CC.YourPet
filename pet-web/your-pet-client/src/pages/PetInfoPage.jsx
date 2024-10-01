@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PawIcon from '@mui/icons-material/Pets';
 import BlockIcon from '@mui/icons-material/Block';
 import { styled } from '@mui/material/styles';
-import { getPetDetails, addPet, updatePet } from '../services/PetService';
+import { usePetService } from '../services/PetService'; // Use the hook
 import LanguageSwitcher from '../tools/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
@@ -23,6 +23,7 @@ const PetInfoPage = () => {
     const [currentPet, setCurrentPet] = useState(null);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const { t } = useTranslation();
+    const { getPetDetails, addPet, updatePet } = usePetService(); // Use pet service functions
 
     useEffect(() => {
         fetchPets();
