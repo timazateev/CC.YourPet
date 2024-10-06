@@ -32,7 +32,7 @@ namespace YourPet.ApiHost.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<PetDto>> AddPetAsync(int userId, PetDto pet)
+		public async Task<ActionResult<PetDto>> AddPetAsync(PetDto pet)
 		{
 			try
 			{
@@ -51,7 +51,7 @@ namespace YourPet.ApiHost.Controllers
 				if (pet == null)
 					return BadRequest("Pet data is null");
 
-				var addedPet = await _petRepository.AddPetAsync(pet, userId);
+				var addedPet = await _petRepository.AddPetAsync(pet, user.Id);
 
 				return Ok(addedPet);
 			}

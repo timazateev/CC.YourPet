@@ -4,6 +4,7 @@ using Serilog;
 using YourPet.Data.Postgres;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 namespace YourPet.ApiHost
@@ -57,8 +58,31 @@ namespace YourPet.ApiHost
 						ValidIssuer = $"https://{builder.Configuration["Auth0:Domain"]}",
 						ValidateAudience = true,
 						ValidAudience = builder.Configuration["Auth0:Audience"],
+
+						TokenDecryptionKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Auth0:ClientSecret"])),
+
 						ValidateLifetime = true,
-						ValidateIssuerSigningKey = true
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Auth0:ClientSecret"]))
+					};
+
+					options.Events = new JwtBearerEvents
+					{
+						OnAuthenticationFailed = context =>
+						{
+							Log.Error("Authentication failed: {Exception}", context.Exception.ToString());
+							return Task.CompletedTask;
+						},
+						OnTokenValidated = context =>
+						{
+							Log.Information("Token validated successfully. Claims: {Claims}", context.Principal.Claims);
+							return Task.CompletedTask;
+						},
+						OnChallenge = context =>
+						{
+							Log.Warning("OnChallenge triggered: {Error}, {ErrorDescription}", context.Error, context.ErrorDescription);
+							return Task.CompletedTask;
+						}
 					};
 				});
 

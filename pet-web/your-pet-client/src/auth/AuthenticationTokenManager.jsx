@@ -7,20 +7,17 @@ const API_BASE_URL = 'https://localhost:44379';
 export const useAuthenticatedAxios = () => {
     const { getAccessTokenSilently } = useAuth0();
 
-    const apiClient = useMemo(() => {
-        const createClient = async () => {
-            const token = await getAccessTokenSilently();
+    const apiClient = useMemo(async () => {
+        const token = await getAccessTokenSilently();
+        console.log("Auth Token: ", token);
 
-            return axios.create({
-                baseURL: API_BASE_URL,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
-        };
-
-        return createClient();
+        return axios.create({
+            baseURL: API_BASE_URL,
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
     }, [getAccessTokenSilently]);
 
     return apiClient;
