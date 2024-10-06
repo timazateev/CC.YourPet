@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import AvatarSelector from '../features/AvatarSelector.jsx';
+import { useAuth0 } from '@auth0/auth0-react';
+import { usePetService } from '../services/PetService'; // Use the hook
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '';
@@ -11,6 +13,9 @@ const formatDate = (dateStr) => {
 
 const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
     const { t } = useTranslation();
+    const { getAccessTokenSilently } = useAuth0();
+    const { addPet, updatePet } = usePetService(); // Use the pet service functions
+
     const [pet, setPet] = useState({
         name: '',
         species: '',
@@ -65,13 +70,26 @@ const AddEditPetDialog = ({ open, onClose, onSave, pet: initialPet }) => {
         setPet(prevPet => ({ ...prevPet, [name]: type === 'checkbox' ? checked : value }));
     };
 
-    const handleSave = () => {
-        onSave({
-            ...pet,
-            dateOfBirth: formatDate(pet.dateOfBirth),
-            avatarKey: selectedAvatar
-        });
-        onClose();
+    const handleSave = async () => {
+        try {
+            const token = await getAccessTokenSilently(); // Get token from Auth0
+            const petData = {
+                ...pet,
+                dateOfBirth: formatDate(pet.dateOfBirth),
+                avatarKey: selectedAvatar
+            };
+
+            if (initialPet) {
+                await updatePet(petData); // Call updatePet from the service
+            } else {
+                await addPet(petData); // Call addPet from the service
+            }
+
+            onSave(petData);
+            onClose();
+        } catch (error) {
+            console.error("Error saving pet:", error);
+        }
     };
 
     return (

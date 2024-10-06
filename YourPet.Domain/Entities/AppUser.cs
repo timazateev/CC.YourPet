@@ -21,10 +21,10 @@ namespace YourPet.Domain.Entities
         public string? Bio { get; set; }
         public bool IsSubscribedToNewsletter { get; set; }
         public bool IsActive { get; set; } = false;
-		public string Auth0Id { get; set; }
+		public string? Auth0Id { get; set; }
 
 
 		[InverseProperty("Owners")]
-		public List<Pet> Pets { get; set; }
+		public List<Pet> Pets { get; set; } = [];
 	}
 }

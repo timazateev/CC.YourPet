@@ -7,8 +7,6 @@
 		public string Dosage { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
-
-		// Внешний ключ для Pet
 		public int PetID { get; set; }
 		public Pet Pet { get; set; }
 	}

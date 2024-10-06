@@ -1,23 +1,36 @@
-import axios from 'axios';
+import { useAuthenticatedAxios } from '../auth/AuthenticationTokenManager';
+import { useAuth0 } from '@auth0/auth0-react'; // Import Auth0 to access the user ID
 
-const API_BASE_URL = 'https://localhost:44379';
+export const usePetService = () => {
+    const apiClient = useAuthenticatedAxios();
+    const { user } = useAuth0();
 
-export const getPetDetails = () => {
-    return axios.get(`${API_BASE_URL}/Pet?onlyEnabled=true`);
-};
+    const registerUser = async () => {
+        const api = await apiClient;
+        const registerPayload = {
+            auth0Id: user.sub,
+            fullName: user.name || '',
+            email: user.email || '',
+        };
 
-export const addPet = (petData) => {
-    return axios.post(`${API_BASE_URL}/Pet`, petData, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-};
+        return api.post('/AppUser/register', registerPayload);
+    };
 
-export const updatePet = (petData) => {
-    return axios.put(`${API_BASE_URL}/Pet`, petData, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    const getPetDetails = async () => {
+        const api = await apiClient;
+
+        return api.get(`/Pet`);
+    };
+
+    const addPet = async (petData) => {
+        const api = await apiClient;
+        return api.post(`/Pet`, petData);
+    };
+
+    const updatePet = async (petData) => {
+        const api = await apiClient;
+        return api.put(`/Pet`, petData);
+    };
+
+    return { registerUser, getPetDetails, addPet, updatePet };
 };

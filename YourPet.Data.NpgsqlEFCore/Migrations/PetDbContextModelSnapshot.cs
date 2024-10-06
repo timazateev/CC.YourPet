@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using YourPet.Data.NPgsqlEfCore;
+using YourPet.NPgsqlEfCore;
 
 #nullable disable
 
@@ -22,21 +22,6 @@ namespace YourPet.NpgsqlEFCore.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AppUserPet", b =>
-                {
-                    b.Property<int>("OwnersId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PetsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("OwnersId", "PetsId");
-
-                    b.HasIndex("PetsId");
-
-                    b.ToTable("AppUserPet");
-                });
-
             modelBuilder.Entity("YourPet.Domain.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
@@ -49,7 +34,6 @@ namespace YourPet.NpgsqlEFCore.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Auth0Id")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Bio")
@@ -164,17 +148,14 @@ namespace YourPet.NpgsqlEFCore.Migrations
                         .HasColumnName("avatar_key");
 
                     b.Property<string>("BehaviorNotes")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("behavior_notes");
 
                     b.Property<string>("Breed")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("breed");
 
                     b.Property<string>("Color")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("color");
 
@@ -183,7 +164,6 @@ namespace YourPet.NpgsqlEFCore.Migrations
                         .HasColumnName("date_of_birth");
 
                     b.Property<string>("DietaryRequirements")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("dietary_requirements");
 
@@ -192,17 +172,14 @@ namespace YourPet.NpgsqlEFCore.Migrations
                         .HasColumnName("enabled");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("gender");
 
                     b.Property<string>("MedicalHistory")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("medical_history");
 
                     b.Property<string>("MicrochipID")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("microchip_id");
 
@@ -212,17 +189,14 @@ namespace YourPet.NpgsqlEFCore.Migrations
                         .HasColumnName("name");
 
                     b.Property<string>("SpecialNeeds")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("special_needs");
 
                     b.Property<string>("Species")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("species");
 
                     b.Property<string>("VaccinationRecords")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("vaccination_records");
 
@@ -235,19 +209,19 @@ namespace YourPet.NpgsqlEFCore.Migrations
                     b.ToTable("pet", (string)null);
                 });
 
-            modelBuilder.Entity("AppUserPet", b =>
+            modelBuilder.Entity("app_user_pet_rel", b =>
                 {
-                    b.HasOne("YourPet.Domain.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("OwnersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("app_user_id")
+                        .HasColumnType("integer");
 
-                    b.HasOne("YourPet.Domain.Entities.Pet", null)
-                        .WithMany()
-                        .HasForeignKey("PetsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("pet_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("app_user_id", "pet_id");
+
+                    b.HasIndex("pet_id");
+
+                    b.ToTable("app_user_pet_rel");
                 });
 
             modelBuilder.Entity("YourPet.Domain.Entities.Event", b =>
@@ -270,6 +244,21 @@ namespace YourPet.NpgsqlEFCore.Migrations
                         .IsRequired();
 
                     b.Navigation("Pet");
+                });
+
+            modelBuilder.Entity("app_user_pet_rel", b =>
+                {
+                    b.HasOne("YourPet.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("app_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YourPet.Domain.Entities.Pet", null)
+                        .WithMany()
+                        .HasForeignKey("pet_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("YourPet.Domain.Entities.Pet", b =>

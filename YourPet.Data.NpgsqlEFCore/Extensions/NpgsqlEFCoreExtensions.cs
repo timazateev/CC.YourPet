@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using YourPet.Data.NPgsqlEfCore;
+using YourPet.NPgsqlEfCore;
 
 public static class ServiceCollectionExtensions
 {
