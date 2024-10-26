@@ -28,7 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\YourPet.Contracts\YourPet.Contracts.csproj" />
     <ProjectReference Include="..\YourPet.Data.Contracts\YourPet.Data.Contracts.csproj" />
-    <ProjectReference Include="..\YourPet.Data.NpgsqlEFCore\YourPet.NpgsqlEFCore.csproj" />
     <ProjectReference Include="..\YourPet.Data.Postgres\YourPet.Data.Postgres.csproj" />
     <ProjectReference Include="..\YourPet.Domain\YourPet.Domain.csproj" />
   </ItemGroup>

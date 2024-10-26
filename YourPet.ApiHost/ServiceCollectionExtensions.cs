@@ -1,10 +1,10 @@
 ﻿using YourAppUser.ApiHost.Repositories;
 using YourPet.ApiHost.Repositories;
-using YourPet.Contracts;
+using YourPet.Contracts.Repositories;
 
 namespace YourPet.ApiHost
 {
-    public static class ServiceCollectionExtensions
+	public static class ServiceCollectionExtensions
     {
         public static void AddDataAccessService<IService, TService>(this IServiceCollection services)
             where TService : class, IService

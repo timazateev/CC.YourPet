@@ -7,24 +7,56 @@ namespace YourPet.Domain.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public string? FullName { get; set; }
-        public DateTime? RegistrationDate { get; set; } = DateTime.UtcNow;
-        public DateTime? LastLoginDate { get; set; }
-        public string? ProfilePictureUrl { get; set; }
-        public string? Email { get; set; }
-        public DateTime? DateOfBirth { get; set; }
-        public string? Address { get; set; }
-        public string? City { get; set; }
-        public string? Country { get; set; }
-        public string? PostalCode { get; set; }
-        public string? Bio { get; set; }
-        public bool IsSubscribedToNewsletter { get; set; }
-        public bool IsActive { get; set; } = false;
-		public string Auth0Id { get; set; }
+		[Column("id")]
+		public int Id { get; set; }
+
+		[Column("full_name")]
+		public string? FullName { get; set; }
+
+		[Column("registration_date")]
+		public DateTime? RegistrationDate { get; set; } = DateTime.UtcNow;
+
+		[Column("last_login_date")]
+		public DateTime? LastLoginDate { get; set; }
+
+		[Column("profile_picture_url")]
+		public string? ProfilePictureUrl { get; set; }
+
+		[Column("email")]
+		public string? Email { get; set; }
+
+		[Column("date_of_birth")]
+		public DateTime? DateOfBirth { get; set; }
+
+		[Column("address")]
+		public string? Address { get; set; }
+
+		[Column("city")]
+		public string? City { get; set; }
+
+		[Column("country")]
+		public string? Country { get; set; }
+
+		[Column("postal_code")]
+		public string? PostalCode { get; set; }
+
+		[Column("bio")]
+		public string? Bio { get; set; }
+
+		[Column("is_subscribed_to_newsletter")]
+		public bool IsSubscribedToNewsletter { get; set; }
+
+		[Column("is_active")]
+		public bool IsActive { get; set; } = false;
+
+		[Column("auth_id")]
+		public string? Auth0Id { get; set; }
 
 
-		[InverseProperty("Owners")]
-		public List<Pet> Pets { get; set; }
+        [InverseProperty("Owners")]
+        public List<Pet> Pets { get; set; } = [];
+
+		[InverseProperty("Guests")]
+		public List<Event> Events { get; set; } = [];
 	}
 }

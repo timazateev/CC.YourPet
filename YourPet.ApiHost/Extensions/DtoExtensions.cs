@@ -18,7 +18,7 @@ public static class DtoExtensions
 			DateOfBirth = dto.DateOfBirth,
 			Address = dto.Address,
 			City = dto.City,
-			Country = dto.Country,
+			Country = dto.Country,		
 			PostalCode = dto.PostalCode,
 			Bio = dto.Bio,
 			IsSubscribedToNewsletter = dto.IsSubscribedToNewsletter,
@@ -97,6 +97,40 @@ public static class DtoExtensions
 		};
 	}
 
+	public static Event FromDto(this EventDto dto, IEnumerable<AppUser> users, IEnumerable<Pet> pets)
+	{
+		return new Event
+		{
+			Id = dto.Id,
+			CreatorUserId = dto.CreatorUserId,
+			Description = dto.Description,
+			EventType = dto.EventType,
+			CreatedAt = dto.CreatedAt,
+			StartedAt = dto.StartedAt,
+			CompletedAt = dto.CompletedAt,
+			Guests = users?.ToList() ?? [],
+			Pets = pets?.ToList() ?? []
+		};
+	}
+
+	public static EventDto ToDto(this Event eventEntity)
+	{
+		return new EventDto
+		{
+			Id = eventEntity.Id,
+			CreatorUserId = eventEntity.CreatorUserId,
+			Description = eventEntity.Description,
+			EventType = eventEntity.EventType,
+			CreatedAt = eventEntity.CreatedAt,
+			StartedAt = eventEntity.StartedAt,
+			CompletedAt = eventEntity.CompletedAt,
+			GuestIds = eventEntity.Guests.Select(g => g.Id).ToList(),
+			PetIds = eventEntity.Pets.Select(p => p.Id).ToList()
+		};
+	}
+
+	public static IEnumerable<EventDto> Map(this IEnumerable<Event> events) =>
+		events.Select(e => e.ToDto());
 	public static IEnumerable<PetDto> Map(this IEnumerable<Pet> pets) =>
 		pets.Select(pet => pet.ToDto());
     public static IEnumerable<AppUserDto> Map(this IEnumerable<AppUser> appUser) =>

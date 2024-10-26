@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using YourPet.Contracts;
+using YourPet.Contracts.Repositories;
 
 namespace YourPet.ApiHost.Controllers
 {

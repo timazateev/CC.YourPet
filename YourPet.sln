@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.Contracts", "YourPe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.Data.Contracts", "YourPet.Data.Contracts\YourPet.Data.Contracts.csproj", "{CBE0D12A-735D-496B-8B0C-D6575AB60DBC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.NpgsqlEFCore", "YourPet.Data.NpgsqlEFCore\YourPet.NpgsqlEFCore.csproj", "{2052406A-A9A1-4A3D-B4EF-F0714E96C3B1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.Data.Postgres", "YourPet.Data.Postgres\YourPet.Data.Postgres.csproj", "{E95246EE-88D0-480B-9E55-DCF4F324759A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourPet.ApiHost", "YourPet.ApiHost\YourPet.ApiHost.csproj", "{44B29982-E842-4D31-85B6-5A93B830AF26}"
@@ -33,10 +31,6 @@ Global
 		{CBE0D12A-735D-496B-8B0C-D6575AB60DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBE0D12A-735D-496B-8B0C-D6575AB60DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBE0D12A-735D-496B-8B0C-D6575AB60DBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2052406A-A9A1-4A3D-B4EF-F0714E96C3B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2052406A-A9A1-4A3D-B4EF-F0714E96C3B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2052406A-A9A1-4A3D-B4EF-F0714E96C3B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2052406A-A9A1-4A3D-B4EF-F0714E96C3B1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E95246EE-88D0-480B-9E55-DCF4F324759A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E95246EE-88D0-480B-9E55-DCF4F324759A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E95246EE-88D0-480B-9E55-DCF4F324759A}.Release|Any CPU.ActiveCfg = Release|Any CPU
