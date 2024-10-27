@@ -31,7 +31,8 @@ namespace YourPet.ApiHost
         {
             return services
                 .AddScoped<IPetRepository, PetRepository>()
-                .AddScoped<IAppUserRepository, AppUserRepository>();
+                .AddScoped<IAppUserRepository, AppUserRepository>()
+                .AddScoped<IEventRepository, EventRepository>();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace YourPet.Data.Postgres
 			// Assuming PetDbContext is already configured to use the connection string as shown earlier
 			services.AddScoped<IPetDa, PetDa>();
 			services.AddScoped<IAppUserDa, AppUserDa>();
+			services.AddScoped<IEventDa, EventDa>();
 
 			return services;
 		}
