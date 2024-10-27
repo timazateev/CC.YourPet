@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using YourPet.Data.Contracts;
-using YourPet.Data.NPgsqlEfCore;
 using YourPet.Domain.Entities;
+using YourPet.Data.NPgsqlEfCore;
 
 namespace YourPet.Data.Postgres.DataAdapters
 {
