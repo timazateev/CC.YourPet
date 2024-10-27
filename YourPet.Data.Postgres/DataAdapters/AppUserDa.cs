@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using YourPet.Data.Contracts;
-using YourPet.Data.NPgsqlEfCore;
 using YourPet.Domain.Entities;
+using YourPet.Data.NPgsqlEfCore;
 
 namespace YourPet.Data.Postgres.DataAdapters
 {
@@ -27,17 +27,17 @@ namespace YourPet.Data.Postgres.DataAdapters
             return _context.AppUsers.AnyAsync(u => u.Auth0Id == appUser.Auth0Id || u.Email == appUser.Email);
 		}
 
-		public async Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<AppUser>> GetAllAppUsersAsync()
         {
             return await _context.AppUsers.ToListAsync();
         }
 
-        public async Task<AppUser> UpdateAppUserAsync(AppUser appUser)
+		public async Task<IEnumerable<AppUser>> GetUsersByIds(IEnumerable<int> userIds)
+		{
+			return await _context.AppUsers.Where(u => userIds.Contains(u.Id)).ToListAsync();
+		}
+
+		public async Task<AppUser> UpdateAppUserAsync(AppUser appUser)
         {
             var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == appUser.Id);
             if (user != null)

@@ -1,10 +1,11 @@
 ﻿using YourPet.ApiHost.Extensions;
 using YourPet.Contracts;
+using YourPet.Contracts.Repositories;
 using YourPet.Data.Contracts;
 
 namespace YourAppUser.ApiHost.Repositories
 {
-    public class AppUserRepository(ILogger<AppUserRepository> logger, IAppUserDa appUserDa) : IAppUserRepository
+	public class AppUserRepository(ILogger<AppUserRepository> logger, IAppUserDa appUserDa) : IAppUserRepository
     {
         private readonly ILogger<AppUserRepository> _logger = logger;
 
@@ -22,11 +23,6 @@ namespace YourAppUser.ApiHost.Repositories
         public async Task<AppUserDto> UpdateAppUserAsync(AppUserDto AppUser)
         {
             return (await appUserDa.UpdateAppUserAsync(AppUser.FromDto())).ToDto();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            await appUserDa.DeleteAsync(id);
         }
 
 		public async Task<bool> AnyAppUserAsync(AppUserDto account)

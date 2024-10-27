@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using YourPet.Domain.Entities;
 
-namespace YourPet.Data.NpgsqlEFCore.Configurations;
-
-public class PetConfiguration : IEntityTypeConfiguration<Pet>
+namespace YourPet.NpgsqlEFCore.Configurations
 {
-    public void Configure(EntityTypeBuilder<Pet> builder)
-    {
-        builder.ToTable("pet");
-		builder.Property(p => p.DateOfBirth).HasColumnType("date");
+	public class PetConfiguration : IEntityTypeConfiguration<Pet>
+	{
+		public void Configure(EntityTypeBuilder<Pet> builder)
+		{
+			builder.ToTable("pet");
+			builder.Property(p => p.DateOfBirth).HasColumnType("date");
+		}
 	}
 }

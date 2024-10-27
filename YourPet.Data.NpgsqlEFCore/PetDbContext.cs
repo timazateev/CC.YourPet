@@ -9,6 +9,7 @@ namespace YourPet.Data.NPgsqlEfCore
 	{
 		public DbSet<Pet> Pets { get; set; }
 		public DbSet<AppUser> AppUsers { get; set; }
+		public DbSet<Event> Events { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

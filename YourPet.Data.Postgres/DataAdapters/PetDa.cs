@@ -52,6 +52,11 @@ namespace YourPet.Data.Postgres.DataAdapters
 			return await _context.Pets.Where(p => p.Enabled).ToListAsync();
 		}
 
+		public async Task<List<Pet>> GetPetsByIds(List<int> petIds)
+		{
+			return await _context.Pets.Where(p=> petIds.Contains(p.Id)).ToListAsync();
+		}
+
 		public async Task<Pet> UpdatePetAsync(Pet pet)
 		{
 			_context.Pets.Update(pet);
